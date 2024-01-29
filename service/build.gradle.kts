@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -51,5 +52,15 @@ dependencies {
 
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.service)
+
+    // Media3 ExoPlayer
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.exoplayer.dash)
+    implementation(libs.media3.exoplayer.hls)
+    implementation(libs.media3.exoplayer.rtsp)
+    implementation(libs.media3.ui)
+    implementation(libs.media3.ui.leanback)
+    implementation(libs.media3.session)
+    implementation(libs.media3.extractor)
 
 }

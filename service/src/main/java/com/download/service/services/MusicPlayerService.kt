@@ -7,18 +7,21 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.example.data.models.Song
 import com.download.service.BundleIdentifier
 import com.download.service.MediaActionEmitter
-import com.download.service.receivers.MediaActionReceiver
 import com.download.service.MediaPlayerStatus
+import com.download.service.model.Song
 import com.download.service.notifs.MediaPlayerNotificationBuilder
 import com.download.service.notifs.PendingIntentHelper
-import com.example.data.platform.MusicLocatorV2
+import com.download.service.receivers.MediaActionReceiver
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -96,6 +99,7 @@ class MusicPlayerService : Service() {
                 BundleIdentifier.ACTION_FIRST_PLAY -> {
                     processArgsToPlaySong(intent)
                 }
+
                 BundleIdentifier.ACTION_PLAY -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -103,6 +107,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 BundleIdentifier.ACTION_PAUSE -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -110,6 +115,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 BundleIdentifier.ACTION_NEXT -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -117,6 +123,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 BundleIdentifier.ACTION_PREVIOUS -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -124,6 +131,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 BundleIdentifier.ACTION_FAST_FORWARD -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -131,6 +139,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 BundleIdentifier.ACTION_REWIND -> {
                     this.sendBroadcast(
                         pendingIntentHelper.intent.apply {
@@ -138,6 +147,7 @@ class MusicPlayerService : Service() {
                         }
                     )
                 }
+
                 else -> {
                     throw Exception("Invalid media player action")
                 }
@@ -249,26 +259,32 @@ class MusicPlayerService : Service() {
                         playCurrentSong()
                         Log.d(TAG, "Player Started")
                     }
+
                     MediaActionReceiver.PAUSE -> {
                         pauseCurrentSong()
                         Log.d(TAG, "Player paused")
                     }
+
                     MediaActionReceiver.PREVIOUS -> {
                         Log.d(TAG, it)
                         playPreviousSongSafely()
                     }
+
                     MediaActionReceiver.NEXT -> {
                         Log.d(TAG, it)
                         playNextSongSafely()
                     }
+
                     MediaActionReceiver.FAST_FORWARD -> {
                         Log.d(TAG, it)
                         fastForwardPlayer()
                     }
+
                     MediaActionReceiver.REWIND -> {
                         Log.d(TAG, it)
                         rewindSong()
                     }
+
                     else -> {}
                 }
             }
@@ -276,17 +292,11 @@ class MusicPlayerService : Service() {
 
         private fun playPreviousSongSafely() {
             currentSongPosition--
-            if (currentSongPosition < 0)
-                currentSongPosition = MusicLocatorV2.getSize() - 1
-            song = MusicLocatorV2.getAudioFiles()[currentSongPosition]
             playThisSong(song)
         }
 
         private fun playNextSongSafely() {
             currentSongPosition += 1
-            if (currentSongPosition == MusicLocatorV2.getSize())
-                currentSongPosition = 0
-            song = MusicLocatorV2.getAudioFiles()[currentSongPosition]
             playThisSong(song)
         }
 

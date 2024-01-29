@@ -8,6 +8,7 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
 lifecycle-version = "2.7.0"
+media3-version = "1.1.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -18,6 +19,17 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-version" }
 lifecycle-service = { group = "androidx.lifecycle", name = "lifecycle-service", version.ref = "lifecycle-version" }
+
+
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3-version" }
+media3-exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "media3-version" }
+media3-exoplayer-hls = { group = "androidx.media3", name = "media3-exoplayer-hls", version.ref = "media3-version" }
+media3-exoplayer-rtsp = { group = "androidx.media3", name = "media3-exoplayer-rtsp", version.ref = "media3-version" }
+media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3-version" }
+media3-ui-leanback = { group = "androidx.media3", name = "media3-ui-leanback", version.ref = "media3-version" }
+media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3-version" }
+media3-extractor = { group = "androidx.media3", name = "media3-extractor", version.ref = "media3-version" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

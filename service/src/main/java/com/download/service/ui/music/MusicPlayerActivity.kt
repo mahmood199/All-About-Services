@@ -1,26 +1,29 @@
 package com.download.service.ui.music
 
+import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.data.models.Song
 import com.download.service.BundleIdentifier
-import com.download.service.services.MusicPlayerService
 import com.download.service.R
 import com.download.service.TimeConverter
 import com.download.service.databinding.ActivityMusicPlayerBinding
-import com.example.data.platform.MusicLocatorV2
+import com.download.service.model.Song
+import com.download.service.services.MusicPlayerService
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MusicPlayerActivity : AppCompatActivity() {
@@ -157,18 +160,21 @@ class MusicPlayerActivity : AppCompatActivity() {
         with(binding) {
             musicPlayerService?.let {
                 val mediaPlayerData = it.getMediaPlayerStatus()
-                tvCurrentTimeStamp.text = TimeConverter.getConvertedTime(mediaPlayerData.currentPlayingTime)
+                tvCurrentTimeStamp.text =
+                    TimeConverter.getConvertedTime(mediaPlayerData.currentPlayingTime)
                 tvTotalTime.text = TimeConverter.getConvertedTime(mediaPlayerData.totalDuration)
-                pbPlayer.progress = ((100 * mediaPlayerData.currentPlayingTime) / mediaPlayerData.totalDuration).toInt()
-                btnAction.text = getString(if (mediaPlayerData.isPlaying) R.string.pause else R.string.play)
-/*                    Log.d(
-                        TAG,
-                        "FIRST" + it.getCurrentPlayingTime().first.toString()
-                    )
-                    Log.d(
-                        TAG,
-                        "SECOND" + it.getCurrentPlayingTime().second.toString()
-                    )*/
+                pbPlayer.progress =
+                    ((100 * mediaPlayerData.currentPlayingTime) / mediaPlayerData.totalDuration).toInt()
+                btnAction.text =
+                    getString(if (mediaPlayerData.isPlaying) R.string.pause else R.string.play)
+                /*                    Log.d(
+                                        TAG,
+                                        "FIRST" + it.getCurrentPlayingTime().first.toString()
+                                    )
+                                    Log.d(
+                                        TAG,
+                                        "SECOND" + it.getCurrentPlayingTime().second.toString()
+                                    )*/
             }
         }
         handler.postDelayed(runnable, 100)
@@ -181,9 +187,6 @@ class MusicPlayerActivity : AppCompatActivity() {
                 READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            (binding.rvMusicItems.adapter as SongsAdapter).addNewItems(
-                MusicLocatorV2.fetchAllAudioFilesFromDevice(this)
-            )
         } else {
             requestPermission()
         }
@@ -212,9 +215,6 @@ class MusicPlayerActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CODE) {
-            (binding.rvMusicItems.adapter as SongsAdapter).addNewItems(
-                MusicLocatorV2.fetchAllAudioFilesFromDevice(this)
-            )
         } else {
 
         }

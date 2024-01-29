@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.download.service.databinding.ItemMusicBinding
-import com.download.service.ui.music.ItemClickListener
-import com.example.data.models.Song
+import com.download.service.model.Song
 
 class SongsAdapter(
     val itemClickListener: (ItemClickListener) -> Unit

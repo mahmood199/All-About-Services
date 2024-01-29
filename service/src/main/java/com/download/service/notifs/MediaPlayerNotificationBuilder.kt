@@ -22,7 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import com.download.service.MediaActionEmitter
 import com.download.service.R
-import com.example.data.models.Song
+import com.download.service.model.Song
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MediaPlayerNotificationBuilder(
